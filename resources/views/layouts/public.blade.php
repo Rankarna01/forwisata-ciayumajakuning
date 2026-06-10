@@ -44,7 +44,7 @@
                         <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         </div>
-                        <span class="font-bold text-xl text-primary">Forwisata</span>
+                        <span class="font-bold text-xl text-primary">{{ $setting->nama_sistem ?? 'Forwisata' }}</span>
                     @endif
                 </div>
                 
@@ -57,16 +57,35 @@
                 </div>
 
                 <div class="hidden md:block">
-                    <a href="#" class="bg-primary hover:bg-green-700 text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg shadow-primary/30 flex items-center gap-2 transform hover:-translate-y-0.5">
+                    <a href="{{ route('wisata.all') }}" class="bg-primary hover:bg-green-700 text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-lg shadow-primary/30 flex items-center gap-2 transform hover:-translate-y-0.5">
                         Jelajahi Sekarang
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
                 </div>
 
+                <!-- Hamburger Button -->
                 <div class="md:hidden flex items-center">
-                    <button class="text-slate-600 focus:outline-none">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-primary focus:outline-none bg-slate-50 p-2 rounded-xl border border-slate-100 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md border-t border-slate-100 shadow-2xl absolute w-full left-0 top-full transition-all">
+            <div class="px-4 py-4 space-y-1 flex flex-col">
+                <a href="{{ route('home') }}" class="block px-4 py-3 rounded-xl text-base font-semibold {{ request()->routeIs('home') ? 'bg-green-50 text-primary' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' }}">Beranda</a>
+                <a href="{{ route('wisata.all') }}" class="block px-4 py-3 rounded-xl text-base font-semibold {{ request()->routeIs('wisata.all') ? 'bg-green-50 text-primary' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' }}">Tempat Wisata</a>
+                <a href="{{ route('event.all') }}" class="block px-4 py-3 rounded-xl text-base font-semibold {{ request()->routeIs('event.all') ? 'bg-green-50 text-primary' : 'text-slate-600 hover:bg-slate-50 hover:text-primary' }}">Info Event</a>
+                <a href="{{ route('home') }}#tentang" class="block px-4 py-3 rounded-xl text-base font-semibold text-slate-600 hover:bg-slate-50 hover:text-primary">Tentang Kami</a>
+                <a href="{{ route('home') }}#kontak" class="block px-4 py-3 rounded-xl text-base font-semibold text-slate-600 hover:bg-slate-50 hover:text-primary">Kontak</a>
+                
+                <div class="pt-4 mt-2 border-t border-slate-100">
+                    <a href="{{ route('wisata.all') }}" class="flex justify-center items-center w-full bg-primary hover:bg-green-700 text-white px-6 py-3.5 rounded-xl font-bold transition-all shadow-md shadow-primary/30">
+                        Jelajahi Sekarang
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -93,6 +112,16 @@
             } else {
                 $('#navbar').removeClass('shadow-sm');
             }
+        });
+
+        // Mobile Menu Toggle
+        $('#mobile-menu-btn').click(function() {
+            $('#mobile-menu').toggleClass('hidden');
+        });
+        
+        // Tutup menu saat link diklik (khusus anchor links)
+        $('#mobile-menu a').click(function() {
+            $('#mobile-menu').addClass('hidden');
         });
     </script>
     
